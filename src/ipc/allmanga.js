@@ -567,9 +567,18 @@ async function trySourceUrls(sourceUrls) {
         if (!finalUrl) continue;
 
         // Direct CDN video (mp4/m3u8/googlevideo) → play immediately
+        let isGoogleVideoHost = false;
+        try {
+          const parsedFinalUrl = new URL(finalUrl);
+          const host = parsedFinalUrl.hostname.toLowerCase();
+          isGoogleVideoHost =
+            host === "googlevideo.com" || host.endsWith(".googlevideo.com");
+        } catch {
+          isGoogleVideoHost = false;
+        }
         if (
           /\.(mp4|webm|mkv|m3u8)(\?|$)/i.test(finalUrl) ||
-          finalUrl.includes("googlevideo.com") ||
+          isGoogleVideoHost ||
           (!finalUrl.includes("youtube.com/watch") &&
             !finalUrl.includes("youtu.be/"))
         ) {
