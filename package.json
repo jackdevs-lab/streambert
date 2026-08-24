@@ -94,7 +94,8 @@
     "win": {
       "icon": "public/icon.png",
       "target": [
-        "nsis"
+        "nsis",
+        "dir"
       ]
     },
     "mac": {
