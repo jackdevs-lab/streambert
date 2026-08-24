@@ -815,7 +815,12 @@ function register(getMainWindow) {
   });
 
   ipcMain.handle("open-external", (_, url) => {
-    shell.openExternal(url);
+    try {
+      const parsed = new URL(url);
+      if (parsed.protocol === "http:" || parsed.protocol === "https:") {
+        shell.openExternal(url);
+      }
+    } catch {}
   });
   ipcMain.handle("open-path", (_, filePath) => {
     // If the path points to a file (e.g. an .asar archive or an executable),
